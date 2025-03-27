@@ -1,254 +1,147 @@
-# Convert the test cases into Markdown format
-
-markdown_content = """# TEST CASES - Apache Iceberg and Trino Containers using Podman
+# TEST CASES - To-Do List Application with Keycloak Authentication
 
 ## Submitted By
-Manish Kumar Chaudhary
+Manish Kumar Chaudhary  
 
 ## Submitted To
-<Reviewer Name>
+Mr. Vipin Tripathi
 
 ## Test Case Version
 1.0
 
 ## Reviewer Name
-<Reviewer Name>
+Ms. Manmeet Narang
 
 ---
 
 ## Goal
-The objective of this project is to set up Apache Iceberg and Trino containers using Podman on Ubuntu. The setup includes inserting 100,000 records into Iceberg, connecting Trino with Iceberg, and performing SQL queries to demonstrate efficient data management and querying capabilities.
+The goal of this project is to develop a To-Do List Application with authentication and authorization using Keycloak. The application should securely authenticate users, authorize API requests, and manage user sessions efficiently. The backend, built with FastAPI, should validate access tokens with Keycloak, interact with MongoDB for data storage, and return appropriate responses to the Angular frontend.
 
 ---
 
 ## Table of Contents
-- [Test Environment](#test-environment)
-- [TC1: Iceberg-Spark Container Startup](#tc1-iceberg-spark-container-startup)
-- [TC2: Trino Container Startup](#tc2-trino-container-startup)
-- [TC3: Data Insertion in Iceberg](#tc3-data-insertion-in-iceberg)
-- [TC4: Data Retrieval using Iceberg](#tc4-data-retrieval-using-iceberg)
-- [TC5: Data Retrieval using Trino](#tc5-data-retrieval-using-trino)
-- [TC6: Data Consistency Check](#tc6-data-consistency-check)
-- [TC7: Complex Query Execution](#tc7-complex-query-execution)
-- [TC8: Negative Test Cases](#tc8-negative-test-cases)
-- [NFR Test Cases](#nfr-test-cases)
+1. [TC1: User Login Redirection](#tc1-user-login-redirection)
+2. [TC2: Token Validation in FastAPI](#tc2-token-validation-in-fastapi)
+3. [TC3: Creating a To-Do Item](#tc3-creating-a-to-do-item)
+4. [TC4: Retrieving To-Do Items](#tc4-retrieving-to-do-items)
+5. [TC5: Unauthorized API Access](#tc5-unauthorized-api-access)
 
 ---
 
-## Test Environment
-The testing environment includes Apache Iceberg and Trino containers running on Podman in Ubuntu. 
-The Iceberg container uses Spark for data operations, while Trino is used for querying and data integration.
-
----
-
-## TC1: Iceberg-Spark Container Startup
+## TC1: User Login Redirection
 ### Scenario
-Verify that the Apache Iceberg-Spark container starts successfully.
+A user opens the Angular application and is redirected to the Keycloak login page.
 
-### Remarks: 
-N/A
+### Remarks
+Ensures that unauthenticated users are redirected to Keycloak for authentication.
 
 ### Given
-- The Iceberg-Spark image is pulled using Podman.
+- The user accesses the Angular application (`http://localhost:4200`).
 
 ### When
-- The container is started with required ports and configurations.
+- The user is not logged in.
 
 ### Then
-- The container should be running and accessible.
+- The user is redirected to the Keycloak login page.
 
 ### Test Run
-- **Date:** 
+- **Date:** <Date>
 - **Result:** Pending/Pass/Fail
-
-### Testing outputs  
-*(Paste your output/snapshots here)*
+- **Testing Outputs:** (Screenshots or logs)
 
 ---
 
-## TC2: Trino Container Startup
+## TC2: Token Validation in FastAPI
 ### Scenario
-Verify that the Trino container starts and connects to Iceberg.
+The FastAPI backend should validate the token received from Keycloak before processing requests.
 
-### Remarks: 
-N/A
+### Remarks
+Ensures that only valid tokens are accepted.
 
 ### Given
-- The Trino image is pulled and configured with Iceberg catalog.
+- The user has successfully logged in and received an access token.
 
 ### When
-- The container is started with the configuration mounted.
+- The Angular app sends an API request to FastAPI with the token.
 
 ### Then
-- The container should be running, and Trino should connect to Iceberg.
+- The FastAPI backend validates the token with Keycloak.
+- If valid, the request is processed.
+- If invalid, the backend returns a 401 Unauthorized response.
 
 ### Test Run
-- **Date:** 
+- **Date:** <Date>
 - **Result:** Pending/Pass/Fail
-
-### Testing outputs  
-*(Paste your output/snapshots here)*
+- **Testing Outputs:** (Screenshots or logs)
 
 ---
 
-## TC3: Data Insertion in Iceberg
+## TC3: Creating a To-Do Item
 ### Scenario
-Verify data insertion of 100,000 records in Iceberg.
+A logged-in user creates a new to-do item via the API.
 
-### Remarks: 
-N/A
+### Remarks
+Ensures authenticated users can add tasks.
 
 ### Given
-- The Iceberg table is created using Spark.
+- The user is authenticated with a valid token.
 
 ### When
-- 100,000 records are inserted using a loop in Spark Shell.
+- The user submits a POST request to `/api/todo` with task details.
 
 ### Then
-- All records should be inserted successfully.
+- The FastAPI backend validates the token and stores the task in MongoDB.
+- A success response (201 Created) is returned.
 
 ### Test Run
-- **Date:** 
+- **Date:** <Date>
 - **Result:** Pending/Pass/Fail
-
-### Testing outputs  
-*(Paste your output/snapshots here)*
+- **Testing Outputs:** (Screenshots or logs)
 
 ---
 
-## TC4: Data Retrieval using Iceberg
+## TC4: Retrieving To-Do Items
 ### Scenario
-Verify data retrieval using Spark Shell.
+A logged-in user fetches their to-do list from the backend.
 
-### Remarks: 
-N/A
+### Remarks
+Ensures that only authenticated users can retrieve tasks.
 
 ### Given
-- Data is inserted into the Iceberg table.
+- The user has logged in and has tasks stored in MongoDB.
 
 ### When
-- A SELECT query is executed to retrieve data.
+- The user sends a GET request to `/api/todo` with a valid token.
 
 ### Then
-- Data should be retrieved without errors.
+- The FastAPI backend verifies the token and retrieves the user's tasks.
+- A success response (200 OK) with the list of tasks is returned.
 
 ### Test Run
-- **Date:** 
+- **Date:** <Date>
 - **Result:** Pending/Pass/Fail
-
-### Testing outputs  
-*(Paste your output/snapshots here)*
+- **Testing Outputs:** (Screenshots or logs)
 
 ---
 
-## TC5: Data Retrieval using Trino
+## TC5: Unauthorized API Access
 ### Scenario
-Verify data retrieval using Trino CLI.
+A user tries to access API endpoints without a valid token.
 
-### Remarks: 
-N/A
+### Remarks
+Ensures unauthorized requests are rejected.
 
 ### Given
-- Trino is configured to use Iceberg as a catalog.
+- The user does not have a valid token.
 
 ### When
-- A SELECT query is executed in Trino CLI.
+- The user sends an API request to the FastAPI backend.
 
 ### Then
-- Data should be retrieved consistently with Iceberg.
+- The backend returns a 401 Unauthorized response.
 
 ### Test Run
-- **Date:** 
+- **Date:** <Date>
 - **Result:** Pending/Pass/Fail
+- **Testing Outputs:** (Screenshots or logs)
 
-### Testing outputs  
-*(Paste your output/snapshots here)*
-
----
-
-## TC6: Data Consistency Check
-### Scenario
-Check data consistency between Spark and Trino queries.
-
-### Remarks: 
-N/A
-
-### Given
-- Data is inserted using Spark.
-
-### When
-- Data is queried using both Spark and Trino.
-
-### Then
-- Data count and values should be consistent.
-
-### Test Run
-- **Date:** 
-- **Result:** Pending/Pass/Fail
-
-### Testing outputs  
-*(Paste your output/snapshots here)*
-
----
-
-## TC7: Complex Query Execution
-### Scenario
-Test the performance of complex queries.
-
-### Remarks: 
-N/A
-
-### Given
-- Data is available in Iceberg.
-
-### When
-- Complex queries with filters, joins, and aggregations are executed.
-
-### Then
-- Queries should execute efficiently without errors.
-
-### Test Run
-- **Date:** 
-- **Result:** Pending/Pass/Fail
-
-### Testing outputs  
-*(Paste your output/snapshots here)*
-
----
-
-## TC8: Negative Test Cases
-### Scenario
-Verify system behavior with invalid inputs.
-
-### Remarks: 
-N/A
-
-### Given
-- Invalid data types and non-existent tables are queried.
-
-### When
-- Queries are executed using Spark and Trino.
-
-### Then
-- Appropriate error messages should be displayed.
-
-### Test Run
-- **Date:** 
-- **Result:** Pending/Pass/Fail
-
-### Testing outputs  
-*(Paste your output/snapshots here)*
-
----
-
-## NFR Test Cases
-Test performance, scalability, and security of the Apache Iceberg and Trino setup. 
-Includes stress testing for large datasets and security testing for access controls.
-"""
-
-# Save the Markdown content to a file
-output_md_file = '/mnt/data/Apache_Iceberg_Trino_Test_Cases.md'
-with open(output_md_file, 'w') as file:
-    file.write(markdown_content)
-
-output_md_file
