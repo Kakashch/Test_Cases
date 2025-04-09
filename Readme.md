@@ -42,12 +42,12 @@ Ensures that unauthenticated users are redirected to Keycloak for authentication
 - The user is not logged in.
 
 ### Then
-- The user is redirected to the Keycloak login page.
+- The user is successfully redirected to the Keycloak login page for authentication.
 
 ### Test Run
 - **Date:** <Date>
 - **Result:** Pending/Pass/Fail
-- **Testing Outputs:** (Screenshots or logs)
+
 
 ---
 
@@ -65,14 +65,13 @@ Ensures that only valid tokens are accepted.
 - The Angular app sends an API request to FastAPI with the token.
 
 ### Then
-- The FastAPI backend validates the token with Keycloak.
-- If valid, the request is processed.
-- If invalid, the backend returns a 401 Unauthorized response.
+- The user is successfully authorized to access the requested resource.
+- The user receives a "401 Unauthorized" error message when the token is invalid.
 
 ### Test Run
 - **Date:** <Date>
 - **Result:** Pending/Pass/Fail
-- **Testing Outputs:** (Screenshots or logs)
+
 
 ---
 
@@ -90,13 +89,12 @@ Ensures authenticated users can add tasks.
 - The user submits a POST request to `/api/todo` with task details.
 
 ### Then
-- The FastAPI backend validates the token and stores the task in MongoDB.
-- A success response (201 Created) is returned.
+- The new to-do item is created successfully and a "201 Created" success message is returned.
 
 ### Test Run
 - **Date:** <Date>
 - **Result:** Pending/Pass/Fail
-- **Testing Outputs:** (Screenshots or logs)
+
 
 ---
 
@@ -114,13 +112,12 @@ Ensures that only authenticated users can retrieve tasks.
 - The user sends a GET request to `/api/todo` with a valid token.
 
 ### Then
-- The FastAPI backend verifies the token and retrieves the user's tasks.
-- A success response (200 OK) with the list of tasks is returned.
+- The user's to-do list is successfully retrieved and displayed with a "200 OK" success response.
 
 ### Test Run
 - **Date:** <Date>
 - **Result:** Pending/Pass/Fail
-- **Testing Outputs:** (Screenshots or logs)
+
 
 ---
 
@@ -138,10 +135,10 @@ Ensures unauthorized requests are rejected.
 - The user sends an API request to the FastAPI backend.
 
 ### Then
-- The backend returns a 401 Unauthorized response.
+- The user is shown a "401 Unauthorized" error message indicating access is denied.
 
 ### Test Run
 - **Date:** <Date>
 - **Result:** Pending/Pass/Fail
-- **Testing Outputs:** (Screenshots or logs)
+
 
